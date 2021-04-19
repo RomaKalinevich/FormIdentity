@@ -1,0 +1,65 @@
+﻿@model IEnumerable<CustomIdentityApp.Models.User>
+@{
+    ViewBag.Title = "Список пользователей";
+}
+<form method="post">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <button type="submit" class="btn mr-2" asp-action="Block">
+                        Block
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-dash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm5-.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z" />
+                        </svg>
+                    </button>
+                </li>
+                <li class="nav-item active">
+                    <button type="submit" class="btn mr-2" asp-action="UnBlock">
+                    Unblock
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-plus-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm7.5-3a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+                            <path fill-rule="evenodd" d="M13 7.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0v-2z" />
+                        </svg>
+                    </button>
+                </li>
+                <li>
+                    <button type="submit" class="btn btn-danger" asp-action="Delete">Remove</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <table class="table form-check">
+        <tr><th><input type="checkbox" id="checkAll" class="styled" /></th><th>Name</th><th>Email</th><th>Date registration</th><th>Date last visit</th><th>     Status</th></tr>
+        @foreach (var user in Model)
+        {
+    <tr>
+        <td>
+            <input type="checkbox" name="selectedUsers"
+                   id="@user.Id" value="@user.Id"
+                   class="styled">
+        </td>
+        <td>@user.UserName</td>
+        <td>@user.Email</td>
+        <td>@user.registrationDate</td>
+        <td>@user.lastLoginDate</td>
+        @if (user.LockoutEnd == null)
+            {
+        <td class="text-left">Active</td>
+            }
+            else
+            {
+        <td>Block</td>
+            }
+        </tr>
+        }
+    </table>
+</form>
+<script>
+    let checkAll = document.getElementById("checkAll");
+    checkAll.addEventListener("click", function () {
+        $('input[name="selectedUsers"]').prop('checked', this.checked);
+    });
+    let inputCheck = document.getElementById("state");
+</script>
